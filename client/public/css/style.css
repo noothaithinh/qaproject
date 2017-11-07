@@ -1,0 +1,135 @@
+.header{
+	  background: linear-gradient(to right, #0A0D5D, #FB7F04); /* Standard syntax */
+}
+.nav{
+	line-height: 50px;
+	height: 50px;
+}
+.nav li
+{
+	float: left;
+	padding:0px 5px;
+}
+.nav li a{
+	color: #CBB352;
+	text-decoration: none;
+	font-weight: bold;
+}
+.nav li.active
+{
+	border-bottom: 5px solid #e8cd5f;
+}
+.nav li:hover{
+	border-bottom:5px solid #a29766;
+}
+.nav li:hover a{
+	color: #a29766;
+}
+.nav li.split span {
+	border-left: 1px solid #CBB352;
+}
+.nav li.split:hover {
+	border-bottom:none;
+}
+.logo{
+	font-size:30px;
+	color: white;
+	height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+.search {
+	line-height: 50px;
+	position: relative;
+}
+.search i {
+	position: absolute;
+    color: white;
+    font-size: 20px;
+    top: 15px;
+    /*right: 25px;*/
+    left: calc(30% - 25px);
+    -webkit-transition: left 0.5s;
+
+}
+.search input {
+	width: 30%;
+    height: 30px;
+    border-radius: 32px;
+    border: 1px solid white;
+    background: rgba(255, 255, 255, 0.5);
+    color: white;
+    padding-left: 15px;
+    font-style: italic;
+    -webkit-transition: width 0.5s;
+}
+.search input:focus {
+	width: 100%
+}
+.search input:focus + i{
+	left: calc(100% - 45px);
+}
+.search input::placeholder {
+	color: #e2e0e0;
+}
+.noti-number{
+	color: white;
+    background: #2c406b;
+    position: absolute;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    font-size: 10px;
+    left: 2px;
+    top: -15px;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-family: arial;
+}
+.inbox i{
+	position: relative;
+}
+body {
+    background-image: url("../images/backgroundImg.jpg");
+}
+.red{
+    background-color:rgba(255, 0, 0, 0.53);
+    height: 500px;
+}
+.blue{
+    background-color:rgba(100, 50, 0, 0.53);
+    height: 500px;
+}
+.yellow{
+    background-color:rgba(100, 30, 10, 0.53);
+    height: 500px;
+}
+.pink{
+    background-color:rgba(10, 60, 20, 0.53);
+    height: 500px;
+}
+.content{
+    background: rgba(255, 255, 255, 0.76);
+    padding: 18px 15px;
+    border-radius: 7px;
+    width: 95%;
+    margin: auto;
+    min-width: 300px;
+    max-width: 500px;
+    box-shadow: 3px 5px 20px 0px #888888;
+}
+.form{
+    width: 85%;
+    margin: auto;
+}
+form input{
+    height: 30px;
+
+}
+form label{
+    font-weight: bolder;
+}
+.nav li a.active{
+    color: green;
+}
