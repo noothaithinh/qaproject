@@ -11,17 +11,20 @@ class LoginPage extends React.Component {
     email: "",
     password: "",
     errors: {},
+    inProcess: false
   }
 
   onSubmit = (e) => {
     e.preventDefault();
 
     const {errors, isValid} = validateFormInput(this.state);
-    
-    if (!isValid) {
-      this.setState({errors});
+    this.setState({errors});
+
+    if (isValid) {
+      this.setState({inProcess: true});
       axios.post("http://localhost:8080/auth/sign_in", this.state).then(
         (res) => {
+          this.setState({inProcess: false});
           console.log("this is message success!", res);
           this.context.router.history.push("/")
           this.props.addFlashMessage({
@@ -30,6 +33,7 @@ class LoginPage extends React.Component {
           })
         },
         (err) => {
+          this.setState({inProcess: false});
           if (err.response && err.response.data && err.response.data.errors){
             err.response.data.errors.map(e => {
               this.props.addFlashMessage({
@@ -87,7 +91,7 @@ class LoginPage extends React.Component {
             fullWidth
             onChange={this.onChange}
           />
-          <Button color="primary" type="submit" >Login</Button>
+          <Button disabled={this.state.inProcess} color="primary" type="submit" >Login</Button>
         </form>
 
       </Paper>

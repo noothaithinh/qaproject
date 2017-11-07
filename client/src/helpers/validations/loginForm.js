@@ -26,6 +26,6 @@ export default (data) => {
   }
   return {
     errors,
-    isvalid: isEmpty(errors)
+    isValid: isEmpty(errors)
   };
 }
