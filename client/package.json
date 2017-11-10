@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.17.0",
+    "jss": "^9.2.0",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.16",
     "material-ui-icons": "^1.0.0-beta.17",

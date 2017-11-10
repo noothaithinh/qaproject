@@ -7,6 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import App from 'components/App';
 import rootReducer from './rootReducer';
+import { updateRequestHeader } from 'actions/axiosHelper';
 
 const store = createStore(
   rootReducer,
@@ -14,6 +15,8 @@ const store = createStore(
     applyMiddleware(thunk)
   )
 );
+
+store.dispatch(updateRequestHeader())
 
 ReactDOM.render(
   <Provider store={store}>

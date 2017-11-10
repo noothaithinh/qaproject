@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Paper, TextField, Button, Typography } from 'material-ui'
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-import userSignupRequest from 'actions/signupActions';
-import validateFormInput from 'helpers/validations/loginForm'
+import { userSignupRequest } from 'actions/apiRequest';
 import { addFlashMessage } from 'actions/flashMessages';
+
+import validateFormInput from 'helpers/validations/loginForm'
 
 class SignupPage extends React.Component {
   state = {
@@ -21,18 +23,13 @@ class SignupPage extends React.Component {
     
     const {errors, isValid} = validateFormInput(this.state);
 
-    if (!isValid) {
+    if (isValid) {
       this.setState({errors});
 
       this.props.userSignupRequest(this.state).then(
         (res) => {
           this.context.router.history.push('/login');
-          this.props.addFlashMessage({
-            type: 'success',
-            text: 'You signed up successfully. Welcome!'
-          })
-        },
-        (err) => {}
+        }
       );
 
     }
@@ -47,6 +44,11 @@ class SignupPage extends React.Component {
   }
 
   render() {
+
+    if (this.props.isAuthenticated){
+      return <Redirect to='/' />;
+    }
+
     return (
       <Paper style={{padding: "16px"}}>
         <Typography type="title" color="inherit">Sign up page</Typography>
@@ -107,7 +109,14 @@ SignupPage.contextTypes = {
 
 SignupPage.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
-  addFlashMessage: PropTypes.func.isRequired
+  addFlashMessage: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 }
 
-export default connect(null, { userSignupRequest, addFlashMessage })(SignupPage);
+function mapStateToProps(state){
+  return {
+    isAuthenticated: state.user.isAuthenticated,
+  };
+}
+
+export default connect(mapStateToProps, { userSignupRequest, addFlashMessage })(SignupPage);

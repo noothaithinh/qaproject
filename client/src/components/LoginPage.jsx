@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Paper, TextField, Button, Typography } from 'material-ui'
-import validateFormInput from 'helpers/validations/loginForm'
-import axios from 'axios';
-import { addFlashMessage } from 'actions/flashMessages';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
+import validateFormInput from 'helpers/validations/loginForm'
+import { userLoginRequest } from 'actions/apiRequest';
 
 class LoginPage extends React.Component {
   state = {
@@ -22,28 +23,14 @@ class LoginPage extends React.Component {
 
     if (isValid) {
       this.setState({inProcess: true});
-      axios.post("http://localhost:8080/auth/sign_in", this.state).then(
+      this.props.userLoginRequest(this.state).then(
         (res) => {
           this.setState({inProcess: false});
-          console.log("this is message success!", res);
           this.context.router.history.push("/")
-          this.props.addFlashMessage({
-            type: 'success',
-            text: 'You signed up successfully. Welcome!'
-          })
         },
         (err) => {
           this.setState({inProcess: false});
-          if (err.response && err.response.data && err.response.data.errors){
-            err.response.data.errors.map(e => {
-              this.props.addFlashMessage({
-                type: 'error',
-                text: e
-              })
-              return true;
-            });
-          }
-          console.log("this is message error.......!", {err}, "xxxxxxx")
+          console.log("LoginPage error ==========>>>", err)
         }
       );
     }
@@ -54,17 +41,11 @@ class LoginPage extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  // checkValidate = (e) => {
-
-  //   const {errors, isValid} = validateFormInput(this.state);
-  //   if (!isValid) {
-  //     this.setState({errors});
-  //   }
-  //   return isValid;
-  // }
-
   render() {
-    
+
+    if (this.props.isAuthenticated){
+      return <Redirect to='/' />;
+    }
 
     return (
       <Paper style={{padding: "16px"}}>
@@ -104,7 +85,13 @@ LoginPage.contextTypes = {
 }
 
 LoginPage.propTypes = {
-  addFlashMessage: PropTypes.func.isRequired
+  userLoginRequest: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 }
 
-export default connect(null, { addFlashMessage })(LoginPage);
+function mapStateToProps(state={}){
+  return {
+    isAuthenticated: state.user.isAuthenticated
+  };
+}
+export default connect(mapStateToProps, { userLoginRequest })(LoginPage);
